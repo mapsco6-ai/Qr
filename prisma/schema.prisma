@@ -1,0 +1,75 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x", "debian-openssl-1.1.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id        String     @id @default(cuid())
+  name      String     @unique
+  order     Int        @default(0)
+  menuItems MenuItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model MenuItem {
+  id            String   @id @default(cuid())
+  name          String
+  description   String?  @db.Text
+  image         String?  @db.Text
+  categoryId    String
+  category      Category @relation(fields: [categoryId], references: [id])
+
+  productCost   Float    @default(0)
+  saladCost     Float    @default(0)
+  oldPrice      Float    @default(0)
+  newPrice      Float    @default(0)
+
+  isOffer       Boolean  @default(false)
+  offerNote     String?
+
+  active        Boolean  @default(true)
+  order         Int      @default(0)
+
+  reviews       Review[]
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([categoryId])
+}
+
+model Review {
+  id          String    @id @default(cuid())
+  customerName String
+  rating      Int
+  comment     String?   @db.Text
+  approved    Boolean   @default(false)
+  menuItemId  String?
+  menuItem    MenuItem? @relation(fields: [menuItemId], references: [id], onDelete: SetNull)
+  createdAt   DateTime  @default(now())
+
+  @@index([menuItemId])
+}
+
+model Complaint {
+  id           String   @id @default(cuid())
+  customerName String
+  phone        String?
+  message      String   @db.Text
+  status       String   @default("new")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  username     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
