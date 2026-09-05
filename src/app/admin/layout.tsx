@@ -2,11 +2,13 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import FlameLogo from "@/components/FlameLogo";
 
 const NAV_ITEMS = [
   { href: "/admin/items", label: "الأصناف والأسعار" },
   { href: "/admin/reviews", label: "التقييمات" },
   { href: "/admin/complaints", label: "الشكاوى" },
+  { href: "/admin/settings", label: "الإعدادات" },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -24,13 +26,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div dir="rtl" className="min-h-screen bg-stone-100">
-      <header className="border-b border-stone-200 bg-white">
+    <div dir="rtl" className="min-h-screen bg-cream-50">
+      <header className="bg-charcoal-900">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-          <h1 className="font-extrabold text-brand-700">لوحة تحكم المنيو</h1>
+          <div className="flex items-center gap-2">
+            <FlameLogo className="h-7 w-7" />
+            <h1 className="font-extrabold text-cream-50">لوحة تحكم خان الجمر</h1>
+          </div>
           <button
             onClick={handleLogout}
-            className="text-sm font-semibold text-stone-500 hover:text-red-600"
+            className="text-sm font-semibold text-charcoal-300 hover:text-ember-400"
           >
             تسجيل الخروج
           </button>
@@ -42,8 +47,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               href={item.href}
               className={`whitespace-nowrap rounded-full px-4 py-1.5 text-sm font-semibold transition ${
                 pathname.startsWith(item.href)
-                  ? "bg-brand-600 text-white"
-                  : "bg-stone-100 text-stone-600"
+                  ? "bg-ember-600 text-white"
+                  : "bg-charcoal-800 text-charcoal-200"
               }`}
             >
               {item.label}
@@ -52,7 +57,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <Link
             href="/"
             target="_blank"
-            className="whitespace-nowrap rounded-full bg-stone-100 px-4 py-1.5 text-sm font-semibold text-stone-600"
+            className="whitespace-nowrap rounded-full bg-charcoal-800 px-4 py-1.5 text-sm font-semibold text-charcoal-200"
           >
             عرض المنيو ↗
           </Link>

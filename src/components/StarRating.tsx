@@ -32,8 +32,8 @@ export default function StarRating({
               width={size}
               height={size}
               viewBox="0 0 24 24"
-              fill={filled ? "#d4a83e" : "none"}
-              stroke="#d4a83e"
+              fill={filled ? "#fda021" : "none"}
+              stroke="#fda021"
               strokeWidth="1.5"
             >
               <path d="M12 2.5l2.9 6.13 6.6.66-4.94 4.6 1.36 6.6L12 17.3l-5.92 3.19 1.36-6.6-4.94-4.6 6.6-.66L12 2.5z" />

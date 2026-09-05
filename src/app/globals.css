@@ -7,7 +7,7 @@ html {
 }
 
 body {
-  background-color: #faf7f0;
+  background-color: #fdfbf6;
 }
 
 ::-webkit-scrollbar {
@@ -15,7 +15,7 @@ body {
   height: 8px;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: rgb(87 154 60 / 0.4);
+  background-color: rgb(194 42 28 / 0.35);
   border-radius: 999px;
 }
 

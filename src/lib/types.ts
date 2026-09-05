@@ -32,6 +32,12 @@ export interface ReviewDto {
   createdAt: string;
 }
 
+export interface SettingsDto {
+  siteName: string;
+  tagline: string;
+  logoUrl: string | null;
+}
+
 export interface ComplaintDto {
   id: string;
   customerName: string;

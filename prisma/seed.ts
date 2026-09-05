@@ -283,6 +283,16 @@ async function main() {
     }
   }
 
+  await prisma.settings.upsert({
+    where: { id: "main" },
+    update: {},
+    create: {
+      id: "main",
+      siteName: "خان الجمر",
+      tagline: "سيّد المشويات التركية",
+    },
+  });
+
   const adminUsername = process.env.ADMIN_USERNAME || "admin";
   const adminPassword = process.env.ADMIN_PASSWORD || "changeme123";
 

@@ -63,18 +63,18 @@ export default function AdminItemsPage() {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h2 className="text-lg font-extrabold text-stone-800">الأصناف والأسعار</h2>
+        <h2 className="text-lg font-extrabold text-charcoal-800">الأصناف والأسعار</h2>
         <div className="flex flex-wrap gap-2">
           <form onSubmit={handleAddCategory} className="flex gap-2">
             <input
               value={newCategoryName}
               onChange={(e) => setNewCategoryName(e.target.value)}
               placeholder="اسم تصنيف جديد"
-              className="rounded-xl border border-stone-200 px-3 py-1.5 text-sm outline-none focus:border-brand-500"
+              className="rounded-xl border border-cream-200 px-3 py-1.5 text-sm outline-none focus:border-ember-500"
             />
             <button
               type="submit"
-              className="rounded-xl border border-stone-300 px-3 py-1.5 text-sm font-semibold text-stone-600"
+              className="rounded-xl border border-cream-300 px-3 py-1.5 text-sm font-semibold text-charcoal-600"
             >
               إضافة تصنيف
             </button>
@@ -84,7 +84,7 @@ export default function AdminItemsPage() {
               setEditingItem(null);
               setShowForm(true);
             }}
-            className="rounded-xl bg-brand-600 px-4 py-1.5 text-sm font-bold text-white"
+            className="rounded-xl bg-ember-600 px-4 py-1.5 text-sm font-bold text-white"
           >
             + إضافة صنف
           </button>
@@ -92,18 +92,18 @@ export default function AdminItemsPage() {
       </div>
 
       {loading ? (
-        <p className="text-stone-400">جاري التحميل...</p>
+        <p className="text-charcoal-400">جاري التحميل...</p>
       ) : (
         grouped.map(({ category, items: catItems }) => (
           <div key={category.id} className="rounded-2xl bg-white p-4 shadow-sm">
-            <h3 className="mb-3 font-bold text-brand-700">{category.name}</h3>
+            <h3 className="mb-3 font-bold text-ember-700">{category.name}</h3>
             {catItems.length === 0 ? (
-              <p className="text-sm text-stone-400">لا توجد أصناف في هذا التصنيف</p>
+              <p className="text-sm text-charcoal-400">لا توجد أصناف في هذا التصنيف</p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[720px] text-right text-sm">
                   <thead>
-                    <tr className="border-b border-stone-200 text-stone-400">
+                    <tr className="border-b border-cream-200 text-charcoal-400">
                       <th className="py-2">الصنف</th>
                       <th>الكلفة</th>
                       <th>السعر القديم</th>
@@ -118,8 +118,8 @@ export default function AdminItemsPage() {
                     {catItems.map((item) => {
                       const pricing = calculatePricing(item);
                       return (
-                        <tr key={item.id} className="border-b border-stone-100">
-                          <td className="py-2 font-semibold text-stone-700">
+                        <tr key={item.id} className="border-b border-cream-100">
+                          <td className="py-2 font-semibold text-charcoal-700">
                             {item.name}
                             {item.isOffer && (
                               <span className="ms-2 rounded-full bg-gold-400/20 px-2 py-0.5 text-xs text-gold-600">
@@ -132,19 +132,19 @@ export default function AdminItemsPage() {
                           </td>
                           <td>
                             {formatPrice(item.oldPrice)} {CURRENCY_LABEL}
-                            <span className="block text-xs text-stone-400">
+                            <span className="block text-xs text-charcoal-400">
                               {pricing.oldMarginPercent}%
                             </span>
                           </td>
                           <td>
                             {formatPrice(item.newPrice)} {CURRENCY_LABEL}
-                            <span className="block text-xs text-stone-400">
+                            <span className="block text-xs text-charcoal-400">
                               {pricing.newMarginPercent}%
                             </span>
                           </td>
                           <td
                             className={
-                              pricing.priceDiff >= 0 ? "text-brand-600" : "text-red-500"
+                              pricing.priceDiff >= 0 ? "text-green-600" : "text-red-500"
                             }
                           >
                             {pricing.priceDiff >= 0 ? "+" : ""}
@@ -156,8 +156,8 @@ export default function AdminItemsPage() {
                               onClick={() => handleToggleActive(item)}
                               className={`rounded-full px-2 py-1 text-xs font-semibold ${
                                 item.active
-                                  ? "bg-brand-100 text-brand-700"
-                                  : "bg-stone-100 text-stone-400"
+                                  ? "bg-green-100 text-green-700"
+                                  : "bg-cream-100 text-charcoal-400"
                               }`}
                             >
                               {item.active ? "نعم" : "مخفي"}
@@ -169,7 +169,7 @@ export default function AdminItemsPage() {
                                 setEditingItem(item);
                                 setShowForm(true);
                               }}
-                              className="me-2 text-xs font-semibold text-brand-600"
+                              className="me-2 text-xs font-semibold text-ember-600"
                             >
                               تعديل
                             </button>

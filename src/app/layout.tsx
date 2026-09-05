@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
-import { Tajawal } from "next/font/google";
+import { Cairo } from "next/font/google";
 import "./globals.css";
 
-const tajawal = Tajawal({
+const cairo = Cairo({
   subsets: ["arabic"],
-  weight: ["300", "400", "500", "700", "800"],
-  variable: "--font-tajawal",
+  weight: ["400", "500", "600", "700", "800", "900"],
+  variable: "--font-cairo",
 });
 
 export const metadata: Metadata = {
-  title: "المنيو الإلكتروني",
-  description: "منيو المطعم الإلكتروني - تصفح الأطباق، الأسعار، وأضف تقييمك",
+  title: "خان الجمر | سيّد المشويات التركية",
+  description: "المنيو الإلكتروني لمطعم خان الجمر - تصفح الأطباق والأسعار وأضف تقييمك",
 };
 
 export default function RootLayout({
@@ -19,8 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ar" dir="rtl" className={tajawal.variable}>
-      <body className="font-sans text-stone-800 antialiased">{children}</body>
+    <html lang="ar" dir="rtl" className={cairo.variable}>
+      <body className="font-sans text-charcoal-800 antialiased">{children}</body>
     </html>
   );
 }

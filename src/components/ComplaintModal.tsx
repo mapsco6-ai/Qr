@@ -47,10 +47,10 @@ export default function ComplaintModal({ onClose }: ComplaintModalProps) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-extrabold text-stone-800">شكاوى واقتراحات</h2>
+          <h2 className="text-lg font-extrabold text-charcoal-800">شكاوى واقتراحات</h2>
           <button
             onClick={onClose}
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-stone-100 text-stone-600"
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-cream-100 text-charcoal-600"
             aria-label="إغلاق"
           >
             ✕
@@ -58,7 +58,7 @@ export default function ComplaintModal({ onClose }: ComplaintModalProps) {
         </div>
 
         {submitted ? (
-          <p className="rounded-xl bg-brand-50 p-4 text-center text-sm font-semibold text-brand-700">
+          <p className="rounded-xl bg-ember-50 p-4 text-center text-sm font-semibold text-ember-700">
             شكراً لتواصلك معنا! تم استلام رسالتك وسنقوم بمراجعتها.
           </p>
         ) : (
@@ -67,14 +67,14 @@ export default function ComplaintModal({ onClose }: ComplaintModalProps) {
               value={customerName}
               onChange={(e) => setCustomerName(e.target.value)}
               placeholder="الاسم"
-              className="rounded-xl border border-stone-200 px-3 py-2 text-sm outline-none focus:border-brand-500"
+              className="rounded-xl border border-cream-200 px-3 py-2 text-sm outline-none focus:border-ember-500"
               maxLength={100}
             />
             <input
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="رقم الهاتف (اختياري)"
-              className="rounded-xl border border-stone-200 px-3 py-2 text-sm outline-none focus:border-brand-500"
+              className="rounded-xl border border-cream-200 px-3 py-2 text-sm outline-none focus:border-ember-500"
               maxLength={30}
               dir="ltr"
             />
@@ -82,14 +82,14 @@ export default function ComplaintModal({ onClose }: ComplaintModalProps) {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="اكتب شكواك أو اقتراحك هنا"
-              className="min-h-[100px] resize-none rounded-xl border border-stone-200 px-3 py-2 text-sm outline-none focus:border-brand-500"
+              className="min-h-[100px] resize-none rounded-xl border border-cream-200 px-3 py-2 text-sm outline-none focus:border-ember-500"
               maxLength={2000}
             />
             {error && <p className="text-sm text-red-600">{error}</p>}
             <button
               type="submit"
               disabled={submitting}
-              className="rounded-xl bg-brand-600 py-2.5 font-bold text-white transition hover:bg-brand-700 disabled:opacity-60"
+              className="rounded-xl bg-ember-600 py-2.5 font-bold text-white transition hover:bg-ember-700 disabled:opacity-60"
             >
               {submitting ? "جاري الإرسال..." : "إرسال"}
             </button>

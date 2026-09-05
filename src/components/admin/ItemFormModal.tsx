@@ -108,13 +108,13 @@ export default function ItemFormModal({
         className="max-h-[92vh] w-full max-w-lg overflow-y-auto rounded-t-3xl bg-white p-5 sm:rounded-3xl"
       >
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-extrabold text-stone-800">
+          <h2 className="text-lg font-extrabold text-charcoal-800">
             {item ? "تعديل صنف" : "إضافة صنف جديد"}
           </h2>
           <button
             type="button"
             onClick={onClose}
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-stone-100 text-stone-600"
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-cream-100 text-charcoal-600"
           >
             ✕
           </button>
@@ -122,12 +122,12 @@ export default function ItemFormModal({
 
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-3">
-            <div className="h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-stone-100">
+            <div className="h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-cream-100">
               {image ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={image} alt="" className="h-full w-full object-cover" />
               ) : (
-                <div className="flex h-full w-full items-center justify-center text-stone-300">
+                <div className="flex h-full w-full items-center justify-center text-cream-300">
                   لا صورة
                 </div>
               )}
@@ -137,7 +137,7 @@ export default function ItemFormModal({
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={uploading}
-                className="rounded-lg border border-stone-200 px-3 py-1.5 text-sm font-semibold text-stone-600"
+                className="rounded-lg border border-cream-200 px-3 py-1.5 text-sm font-semibold text-charcoal-600"
               >
                 {uploading ? "جاري الرفع..." : "رفع صورة"}
               </button>
@@ -164,13 +164,13 @@ export default function ItemFormModal({
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="اسم الصنف"
-            className="rounded-xl border border-stone-200 px-3 py-2 text-sm outline-none focus:border-brand-500"
+            className="rounded-xl border border-cream-200 px-3 py-2 text-sm outline-none focus:border-ember-500"
           />
 
           <select
             value={categoryId}
             onChange={(e) => setCategoryId(e.target.value)}
-            className="rounded-xl border border-stone-200 px-3 py-2 text-sm outline-none focus:border-brand-500"
+            className="rounded-xl border border-cream-200 px-3 py-2 text-sm outline-none focus:border-ember-500"
           >
             {categories.map((c) => (
               <option key={c.id} value={c.id}>
@@ -183,7 +183,7 @@ export default function ItemFormModal({
             value={description ?? ""}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="وصف الصنف (اختياري)"
-            className="min-h-[60px] resize-none rounded-xl border border-stone-200 px-3 py-2 text-sm outline-none focus:border-brand-500"
+            className="min-h-[60px] resize-none rounded-xl border border-cream-200 px-3 py-2 text-sm outline-none focus:border-ember-500"
           />
 
           <div className="grid grid-cols-2 gap-3">
@@ -192,7 +192,7 @@ export default function ItemFormModal({
                 type="number"
                 value={productCost}
                 onChange={(e) => setProductCost(Number(e.target.value))}
-                className="w-full rounded-xl border border-stone-200 px-3 py-2 text-sm outline-none focus:border-brand-500"
+                className="w-full rounded-xl border border-cream-200 px-3 py-2 text-sm outline-none focus:border-ember-500"
               />
             </Field>
             <Field label="كلفة السلطة / إضافات">
@@ -200,7 +200,7 @@ export default function ItemFormModal({
                 type="number"
                 value={saladCost}
                 onChange={(e) => setSaladCost(Number(e.target.value))}
-                className="w-full rounded-xl border border-stone-200 px-3 py-2 text-sm outline-none focus:border-brand-500"
+                className="w-full rounded-xl border border-cream-200 px-3 py-2 text-sm outline-none focus:border-ember-500"
               />
             </Field>
             <Field label="السعر القديم">
@@ -208,7 +208,7 @@ export default function ItemFormModal({
                 type="number"
                 value={oldPrice}
                 onChange={(e) => setOldPrice(Number(e.target.value))}
-                className="w-full rounded-xl border border-stone-200 px-3 py-2 text-sm outline-none focus:border-brand-500"
+                className="w-full rounded-xl border border-cream-200 px-3 py-2 text-sm outline-none focus:border-ember-500"
               />
             </Field>
             <Field label="السعر الجديد">
@@ -216,7 +216,7 @@ export default function ItemFormModal({
                 type="number"
                 value={newPrice}
                 onChange={(e) => setNewPrice(Number(e.target.value))}
-                className="w-full rounded-xl border border-stone-200 px-3 py-2 text-sm outline-none focus:border-brand-500"
+                className="w-full rounded-xl border border-cream-200 px-3 py-2 text-sm outline-none focus:border-ember-500"
               />
             </Field>
           </div>
@@ -228,7 +228,7 @@ export default function ItemFormModal({
             newPrice={Number(newPrice) || 0}
           />
 
-          <label className="flex items-center gap-2 text-sm text-stone-600">
+          <label className="flex items-center gap-2 text-sm text-charcoal-600">
             <input
               type="checkbox"
               checked={isOffer}
@@ -242,11 +242,11 @@ export default function ItemFormModal({
               value={offerNote ?? ""}
               onChange={(e) => setOfferNote(e.target.value)}
               placeholder="ملاحظة العرض (مثال: بدلاً من 13 ادفع 12 الف)"
-              className="rounded-xl border border-stone-200 px-3 py-2 text-sm outline-none focus:border-brand-500"
+              className="rounded-xl border border-cream-200 px-3 py-2 text-sm outline-none focus:border-ember-500"
             />
           )}
 
-          <label className="flex items-center gap-2 text-sm text-stone-600">
+          <label className="flex items-center gap-2 text-sm text-charcoal-600">
             <input
               type="checkbox"
               checked={active}
@@ -260,7 +260,7 @@ export default function ItemFormModal({
           <button
             type="submit"
             disabled={saving}
-            className="mt-1 rounded-xl bg-brand-600 py-2.5 font-bold text-white transition hover:bg-brand-700 disabled:opacity-60"
+            className="mt-1 rounded-xl bg-ember-600 py-2.5 font-bold text-white transition hover:bg-ember-700 disabled:opacity-60"
           >
             {saving ? "جاري الحفظ..." : "حفظ"}
           </button>
@@ -272,7 +272,7 @@ export default function ItemFormModal({
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <label className="flex flex-col gap-1 text-xs text-stone-500">
+    <label className="flex flex-col gap-1 text-xs text-charcoal-500">
       {label}
       {children}
     </label>
