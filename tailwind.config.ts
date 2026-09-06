@@ -6,6 +6,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ["var(--font-cairo)", "Tahoma", "Arial", "sans-serif"],
+        display: ["var(--font-rakkas)", "var(--font-cairo)", "Tahoma", "serif"],
       },
       colors: {
         // Deep charcoal/black - grill & header surfaces
