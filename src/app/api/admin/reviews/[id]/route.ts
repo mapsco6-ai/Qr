@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { getPrisma } from "@/lib/prisma";
 
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const { approved } = await request.json();
+  const { approved } = (await request.json()) as any;
+  const prisma = await getPrisma();
   try {
     const review = await prisma.review.update({
       where: { id },
@@ -23,6 +24,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
+  const prisma = await getPrisma();
   try {
     await prisma.review.delete({ where: { id } });
     return NextResponse.json({ ok: true });

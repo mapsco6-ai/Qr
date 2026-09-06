@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { getPrisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
+  const prisma = await getPrisma();
   const settings = await prisma.settings.upsert({
     where: { id: "main" },
     update: {},
@@ -13,8 +14,9 @@ export async function GET() {
 }
 
 export async function PUT(request: NextRequest) {
-  const { siteName, tagline, logoUrl } = await request.json();
+  const { siteName, tagline, logoUrl } = (await request.json()) as any;
 
+  const prisma = await getPrisma();
   const settings = await prisma.settings.upsert({
     where: { id: "main" },
     update: {

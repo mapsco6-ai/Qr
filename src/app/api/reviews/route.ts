@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { getPrisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
   const menuItemId = request.nextUrl.searchParams.get("menuItemId");
+  const prisma = await getPrisma();
 
   const reviews = await prisma.review.findMany({
     where: {
@@ -19,7 +20,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const body = await request.json();
+  const body = (await request.json()) as any;
   const { customerName, rating, comment, menuItemId } = body ?? {};
 
   if (
@@ -32,6 +33,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "بيانات غير صالحة" }, { status: 400 });
   }
 
+  const prisma = await getPrisma();
   const review = await prisma.review.create({
     data: {
       customerName: customerName.trim().slice(0, 100),

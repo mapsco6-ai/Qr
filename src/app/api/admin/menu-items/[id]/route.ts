@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { getPrisma } from "@/lib/prisma";
 
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const body = await request.json();
+  const body = (await request.json()) as any;
   const {
     name,
     description,
@@ -22,6 +22,7 @@ export async function PUT(
     order,
   } = body ?? {};
 
+  const prisma = await getPrisma();
   try {
     const item = await prisma.menuItem.update({
       where: { id },
@@ -51,6 +52,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
+  const prisma = await getPrisma();
   try {
     await prisma.menuItem.delete({ where: { id } });
     return NextResponse.json({ ok: true });

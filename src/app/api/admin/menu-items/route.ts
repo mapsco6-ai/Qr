@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { getPrisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
+  const prisma = await getPrisma();
   const items = await prisma.menuItem.findMany({
     include: { category: true },
     orderBy: [{ category: { order: "asc" } }, { order: "asc" }, { createdAt: "asc" }],
@@ -12,7 +13,7 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  const body = await request.json();
+  const body = (await request.json()) as any;
   const {
     name,
     description,
@@ -32,6 +33,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "الاسم والتصنيف مطلوبان" }, { status: 400 });
   }
 
+  const prisma = await getPrisma();
   const item = await prisma.menuItem.create({
     data: {
       name: name.trim(),

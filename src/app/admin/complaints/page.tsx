@@ -22,7 +22,7 @@ export default function AdminComplaintsPage() {
   async function loadComplaints() {
     setLoading(true);
     const res = await fetch("/api/admin/complaints");
-    setComplaints(await res.json());
+    setComplaints((await res.json()) as ComplaintDto[]);
     setLoading(false);
   }
 
