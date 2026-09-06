@@ -12,7 +12,7 @@
     {
       "binding": "DB",
       "database_name": "khan-al-jamr-db",
-      "database_id": "04b60663-b3a7-4ad5-82a0-dc4ab4831fd6"
+      "database_id": "REPLACE_WITH_YOUR_D1_DATABASE_ID"
     }
   ],
   "r2_buckets": [
