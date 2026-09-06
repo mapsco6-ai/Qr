@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { CategoryDto, MenuItemDto } from "@/lib/types";
+import { compressImage } from "@/lib/compressImage";
 import PricingCalculator from "./PricingCalculator";
 
 interface ItemFormModalProps {
@@ -40,11 +41,14 @@ export default function ItemFormModal({
     setUploading(true);
     setError("");
     try {
+      const compressed = await compressImage(file);
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append("file", compressed);
       const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
+      const data = await res.json().catch(() => ({}) as { url?: string; error?: string });
+      if (!res.ok || !data.url) {
+        throw new Error(data.error || "تعذر رفع الصورة، جرّب صورة أصغر");
+      }
       setImage(data.url);
     } catch (err) {
       setError(err instanceof Error ? err.message : "تعذر رفع الصورة");
@@ -86,7 +90,7 @@ export default function ItemFormModal({
         }
       );
       if (!res.ok) {
-        const data = await res.json();
+        const data = await res.json().catch(() => ({}) as { error?: string });
         throw new Error(data.error ?? "تعذر الحفظ");
       }
       onSaved();

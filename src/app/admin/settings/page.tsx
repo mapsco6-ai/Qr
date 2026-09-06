@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import FlameLogo from "@/components/FlameLogo";
+import { compressImage } from "@/lib/compressImage";
 
 export default function AdminSettingsPage() {
   const [siteName, setSiteName] = useState("");
@@ -31,11 +32,14 @@ export default function AdminSettingsPage() {
     setUploading(true);
     setError("");
     try {
+      const compressed = await compressImage(file);
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append("file", compressed);
       const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
+      const data = await res.json().catch(() => ({}) as { url?: string; error?: string });
+      if (!res.ok || !data.url) {
+        throw new Error(data.error || "تعذر رفع الشعار، جرّب صورة أصغر");
+      }
       setLogoUrl(data.url);
     } catch (err) {
       setError(err instanceof Error ? err.message : "تعذر رفع الشعار");
