@@ -7,6 +7,7 @@ import MenuItemCard from "./MenuItemCard";
 import ItemDetailModal from "./ItemDetailModal";
 import ComplaintModal from "./ComplaintModal";
 import FlameLogo from "./FlameLogo";
+import ThemeToggle from "./ThemeToggle";
 
 interface MenuBrowserProps {
   settings: SettingsDto;
@@ -50,7 +51,7 @@ export default function MenuBrowser({ settings, categories, items }: MenuBrowser
   }
 
   return (
-    <div className="min-h-screen bg-cream-50">
+    <div className="min-h-screen bg-cream-50 dark:bg-charcoal-950">
       {/* Top bar */}
       <div className="mx-auto flex max-w-3xl items-center justify-between px-4 pt-4">
         <div className="flex h-9 w-9 items-center justify-center rounded-full bg-charcoal-900 ring-1 ring-ember-600/50">
@@ -65,23 +66,26 @@ export default function MenuBrowser({ settings, categories, items }: MenuBrowser
             <FlameLogo className="h-6 w-6" />
           )}
         </div>
-        <button
-          onClick={() => setShowComplaint(true)}
-          className="rounded-full border border-cream-300 bg-white/70 px-4 py-1.5 text-xs font-semibold text-charcoal-600 shadow-sm backdrop-blur"
-        >
-          الشكاوى والملاحظات
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowComplaint(true)}
+            className="rounded-full border border-cream-300 bg-white/70 px-4 py-1.5 text-xs font-semibold text-charcoal-600 shadow-sm backdrop-blur dark:border-charcoal-600 dark:bg-charcoal-800/70 dark:text-charcoal-200"
+          >
+            الشكاوى والملاحظات
+          </button>
+          <ThemeToggle />
+        </div>
       </div>
 
       {/* Hero */}
       <section className="relative overflow-hidden px-4 pb-8 pt-6 text-center">
         <div
           aria-hidden
-          className="pointer-events-none absolute left-1/2 top-10 -z-0 h-[420px] w-[420px] -translate-x-1/2 rounded-full border border-ember-200/60"
+          className="pointer-events-none absolute left-1/2 top-10 -z-0 h-[420px] w-[420px] -translate-x-1/2 rounded-full border border-ember-200/60 dark:border-ember-800/40"
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute left-1/2 top-10 -z-0 h-[340px] w-[340px] -translate-x-1/2 rounded-full border border-gold-200/50"
+          className="pointer-events-none absolute left-1/2 top-10 -z-0 h-[340px] w-[340px] -translate-x-1/2 rounded-full border border-gold-200/50 dark:border-gold-800/30"
         />
 
         <motion.div
@@ -92,17 +96,22 @@ export default function MenuBrowser({ settings, categories, items }: MenuBrowser
         >
           <motion.span
             variants={heroItem}
-            className="flex items-center gap-1.5 text-sm font-bold text-ember-700"
+            className="flex items-center gap-1.5 text-sm font-bold text-ember-700 dark:text-ember-400"
           >
             <FlameLogo className="h-4 w-4" /> من الجمر مباشرة
           </motion.span>
 
           <motion.h1 variants={heroItem} className="font-display leading-[1.15]">
-            <span className="block text-4xl text-charcoal-900">نكهة تركية</span>
-            <span className="block text-4xl text-ember-700">بروح {settings.siteName}</span>
+            <span className="block text-4xl text-charcoal-900 dark:text-cream-50">نكهة تركية</span>
+            <span className="block text-4xl text-ember-700 dark:text-ember-400">
+              بروح {settings.siteName}
+            </span>
           </motion.h1>
 
-          <motion.p variants={heroItem} className="max-w-xs text-sm leading-relaxed text-charcoal-500">
+          <motion.p
+            variants={heroItem}
+            className="max-w-xs text-sm leading-relaxed text-charcoal-500 dark:text-charcoal-300"
+          >
             اختر وجبتك وتعرّف على أسعارنا بسهولة، كل أطباقنا تُحضّر بعناية وتُشوى على الجمر
           </motion.p>
 
@@ -115,7 +124,7 @@ export default function MenuBrowser({ settings, categories, items }: MenuBrowser
           </motion.button>
 
           <motion.div variants={heroItem} className="relative mt-6">
-            <div className="flex h-40 w-40 items-center justify-center rounded-full bg-[radial-gradient(circle,theme(colors.cream.100),theme(colors.cream.50))] shadow-inner">
+            <div className="flex h-40 w-40 items-center justify-center rounded-full bg-[radial-gradient(circle,theme(colors.cream.100),theme(colors.cream.50))] shadow-inner dark:bg-[radial-gradient(circle,theme(colors.charcoal.800),theme(colors.charcoal.900))]">
               {settings.logoUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -137,13 +146,16 @@ export default function MenuBrowser({ settings, categories, items }: MenuBrowser
       </section>
 
       {/* Sticky search + categories */}
-      <div ref={menuRef} className="sticky top-0 z-40 border-b border-cream-200 bg-cream-50/95 backdrop-blur">
+      <div
+        ref={menuRef}
+        className="sticky top-0 z-40 border-b border-cream-200 bg-cream-50/95 backdrop-blur dark:border-charcoal-700 dark:bg-charcoal-950/95"
+      >
         <div className="mx-auto max-w-3xl px-4 py-3">
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="ابحث عن طبق..."
-            className="w-full rounded-full border border-cream-300 bg-white px-4 py-2 text-sm text-charcoal-800 outline-none placeholder:text-charcoal-300 focus:border-ember-500"
+            className="w-full rounded-full border border-cream-300 bg-white px-4 py-2 text-sm text-charcoal-800 outline-none placeholder:text-charcoal-300 focus:border-ember-500 dark:border-charcoal-600 dark:bg-charcoal-800 dark:text-cream-50 dark:placeholder:text-charcoal-400"
           />
           <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
             <button
@@ -151,7 +163,7 @@ export default function MenuBrowser({ settings, categories, items }: MenuBrowser
               className={`whitespace-nowrap rounded-full px-4 py-1.5 text-sm font-semibold transition ${
                 activeCategory === "all"
                   ? "bg-ember-600 text-white"
-                  : "border border-cream-300 bg-white text-charcoal-600"
+                  : "border border-cream-300 bg-white text-charcoal-600 dark:border-charcoal-600 dark:bg-charcoal-800 dark:text-charcoal-200"
               }`}
             >
               الكل
@@ -163,7 +175,7 @@ export default function MenuBrowser({ settings, categories, items }: MenuBrowser
                 className={`whitespace-nowrap rounded-full px-4 py-1.5 text-sm font-semibold transition ${
                   activeCategory === cat.id
                     ? "bg-ember-600 text-white"
-                    : "border border-cream-300 bg-white text-charcoal-600"
+                    : "border border-cream-300 bg-white text-charcoal-600 dark:border-charcoal-600 dark:bg-charcoal-800 dark:text-charcoal-200"
                 }`}
               >
                 {cat.name}
@@ -175,7 +187,9 @@ export default function MenuBrowser({ settings, categories, items }: MenuBrowser
 
       <main className="mx-auto max-w-3xl px-4 py-5 pb-16">
         {filteredItems.length === 0 ? (
-          <p className="mt-10 text-center text-charcoal-400">لا توجد أطباق مطابقة</p>
+          <p className="mt-10 text-center text-charcoal-400 dark:text-charcoal-400">
+            لا توجد أطباق مطابقة
+          </p>
         ) : (
           <div className="flex flex-col gap-3">
             {filteredItems.map((item, index) => (

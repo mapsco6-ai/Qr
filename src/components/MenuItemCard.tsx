@@ -21,40 +21,46 @@ export default function MenuItemCard({ item, index, onClick }: MenuItemCardProps
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.35, delay: Math.min(index, 8) * 0.04, ease: "easeOut" }}
       whileTap={{ scale: 0.98 }}
-      className="flex w-full items-stretch gap-3 rounded-2xl border border-cream-200 bg-white p-2.5 text-right shadow-sm transition-shadow hover:shadow-md"
+      className="flex w-full items-stretch gap-3 rounded-2xl border border-cream-200 bg-white p-2.5 text-right shadow-sm transition-shadow hover:shadow-md dark:border-charcoal-700 dark:bg-charcoal-800"
     >
       <div className="min-w-0 flex-1 flex-col justify-between py-1 pr-1">
         <div className="flex flex-col gap-1">
           {item.isOffer && (
-            <span className="w-fit rounded-full bg-gold-100 px-2 py-0.5 text-[11px] font-bold text-gold-700">
+            <span className="w-fit rounded-full bg-gold-100 px-2 py-0.5 text-[11px] font-bold text-gold-700 dark:bg-gold-900/40 dark:text-gold-300">
               عرض خاص
             </span>
           )}
-          <h3 className="font-bold leading-snug text-charcoal-800">{item.name}</h3>
+          <h3 className="font-bold leading-snug text-charcoal-800 dark:text-cream-50">
+            {item.name}
+          </h3>
           {item.description && (
-            <p className="line-clamp-1 text-xs text-charcoal-400">{item.description}</p>
+            <p className="line-clamp-1 text-xs text-charcoal-400 dark:text-charcoal-300">
+              {item.description}
+            </p>
           )}
         </div>
 
         <div className="mt-2 flex items-baseline gap-1.5">
-          <span className="text-lg font-extrabold text-ember-700">
+          <span className="text-lg font-extrabold text-ember-700 dark:text-ember-400">
             {formatPrice(item.newPrice)}
           </span>
-          <span className="text-[11px] text-charcoal-400">{CURRENCY_LABEL}</span>
+          <span className="text-[11px] text-charcoal-400 dark:text-charcoal-400">
+            {CURRENCY_LABEL}
+          </span>
           {hasDiscount && (
-            <span className="text-xs text-charcoal-300 line-through">
+            <span className="text-xs text-charcoal-300 line-through dark:text-charcoal-500">
               {formatPrice(item.oldPrice)}
             </span>
           )}
         </div>
       </div>
 
-      <div className="relative aspect-square w-24 shrink-0 overflow-hidden rounded-xl bg-cream-100 sm:w-28">
+      <div className="relative aspect-square w-24 shrink-0 overflow-hidden rounded-xl bg-cream-100 dark:bg-charcoal-700 sm:w-28">
         {item.image ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-cream-300">
+          <div className="flex h-full w-full items-center justify-center text-cream-300 dark:text-charcoal-500">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
               <path d="M4 5h16v14H4z" />
               <path d="M4 15l4-4 4 4 4-6 4 6" />

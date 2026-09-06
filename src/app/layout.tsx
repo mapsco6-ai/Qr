@@ -19,6 +19,16 @@ export const metadata: Metadata = {
   description: "المنيو الإلكتروني لمطعم خان الجمر - تصفح الأطباق والأسعار وأضف تقييمك",
 };
 
+const themeInitScript = `
+try {
+  var theme = localStorage.getItem('theme');
+  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (theme === 'dark' || (!theme && prefersDark)) {
+    document.documentElement.classList.add('dark');
+  }
+} catch (e) {}
+`;
+
 export default function RootLayout({
   children,
 }: {
@@ -26,7 +36,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ar" dir="rtl" className={`${cairo.variable} ${rakkas.variable}`}>
-      <body className="font-sans text-charcoal-800 antialiased">{children}</body>
+      <body className="bg-cream-50 font-sans text-charcoal-800 antialiased dark:bg-charcoal-950 dark:text-cream-50">
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        {children}
+      </body>
     </html>
   );
 }
