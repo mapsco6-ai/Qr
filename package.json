@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
-    "start": "next start -p ${PORT:-3000}",
+    "start": "prisma db push --accept-data-loss --skip-generate && (tsx prisma/seed.ts || true) && next start -p ${PORT:-3000}",
     "lint": "next lint",
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate deploy",
@@ -23,8 +23,10 @@
     "bcryptjs": "^2.4.3",
     "jose": "^5.9.6",
     "next": "15.5.25",
+    "prisma": "^5.20.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "tsx": "^4.19.1"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
@@ -33,9 +35,7 @@
     "@types/react-dom": "^18.3.1",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.47",
-    "prisma": "^5.20.0",
     "tailwindcss": "^3.4.13",
-    "tsx": "^4.19.1",
     "typescript": "^5.6.3"
   }
 }
