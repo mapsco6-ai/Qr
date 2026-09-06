@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getPrisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 
 const VALID_STATUSES = ["new", "in_progress", "resolved"];
 
@@ -8,11 +8,10 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const { status } = (await request.json()) as any;
+  const { status } = await request.json();
   if (!VALID_STATUSES.includes(status)) {
     return NextResponse.json({ error: "حالة غير صالحة" }, { status: 400 });
   }
-  const prisma = await getPrisma();
   try {
     const complaint = await prisma.complaint.update({
       where: { id },
@@ -29,7 +28,6 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const prisma = await getPrisma();
   try {
     await prisma.complaint.delete({ where: { id } });
     return NextResponse.json({ ok: true });

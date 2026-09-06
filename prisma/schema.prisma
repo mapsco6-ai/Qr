@@ -1,12 +1,11 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x", "debian-openssl-1.1.x"]
 }
 
 datasource db {
-  provider = "sqlite"
-  // Placeholder only - the actual D1 database is supplied at runtime via the
-  // Cloudflare D1 binding (see src/lib/prisma.ts), not this connection string.
-  url      = "file:./local.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Category {
@@ -21,8 +20,8 @@ model Category {
 model MenuItem {
   id            String   @id @default(cuid())
   name          String
-  description   String?
-  image         String?
+  description   String?  @db.Text
+  image         String?  @db.Text
   categoryId    String
   category      Category @relation(fields: [categoryId], references: [id])
 
@@ -49,7 +48,7 @@ model Review {
   id          String    @id @default(cuid())
   customerName String
   rating      Int
-  comment     String?
+  comment     String?   @db.Text
   approved    Boolean   @default(false)
   menuItemId  String?
   menuItem    MenuItem? @relation(fields: [menuItemId], references: [id], onDelete: SetNull)
@@ -62,7 +61,7 @@ model Complaint {
   id           String   @id @default(cuid())
   customerName String
   phone        String?
-  message      String
+  message      String   @db.Text
   status       String   @default("new")
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -79,6 +78,6 @@ model Settings {
   id        String   @id @default("main")
   siteName  String   @default("خان الجمر")
   tagline   String   @default("سيّد المشويات التركية")
-  logoUrl   String?
+  logoUrl   String?  @db.Text
   updatedAt DateTime @updatedAt
 }

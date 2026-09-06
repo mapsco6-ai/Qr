@@ -19,8 +19,8 @@ export default function AdminItemsPage() {
       fetch("/api/admin/categories"),
       fetch("/api/admin/menu-items"),
     ]);
-    setCategories((await catRes.json()) as CategoryDto[]);
-    setItems((await itemRes.json()) as MenuItemDto[]);
+    setCategories(await catRes.json());
+    setItems(await itemRes.json());
     setLoading(false);
   }
 

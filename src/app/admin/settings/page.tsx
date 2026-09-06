@@ -16,10 +16,7 @@ export default function AdminSettingsPage() {
 
   useEffect(() => {
     fetch("/api/admin/settings")
-      .then(
-        (res) =>
-          res.json() as Promise<{ siteName?: string; tagline?: string; logoUrl?: string | null }>
-      )
+      .then((res) => res.json())
       .then((data) => {
         setSiteName(data.siteName ?? "");
         setTagline(data.tagline ?? "");
@@ -37,8 +34,8 @@ export default function AdminSettingsPage() {
       const formData = new FormData();
       formData.append("file", file);
       const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
-      const data = (await res.json()) as { url?: string; error?: string };
-      if (!res.ok || !data.url) throw new Error(data.error);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
       setLogoUrl(data.url);
     } catch (err) {
       setError(err instanceof Error ? err.message : "تعذر رفع الشعار");

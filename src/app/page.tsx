@@ -1,5 +1,4 @@
-import type { Prisma, PrismaClient } from "@prisma/client";
-import { getPrisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import MenuBrowser from "@/components/MenuBrowser";
 import { SettingsDto } from "@/lib/types";
 
@@ -12,12 +11,13 @@ const DEFAULT_SETTINGS: SettingsDto = {
 };
 
 export default async function HomePage() {
-  let categories: Awaited<ReturnType<PrismaClient["category"]["findMany"]>> = [];
-  let items: Prisma.MenuItemGetPayload<{ include: { category: true } }>[] = [];
+  let categories: Awaited<ReturnType<typeof prisma.category.findMany>> = [];
+  let items: Awaited<
+    ReturnType<typeof prisma.menuItem.findMany<{ include: { category: true } }>>
+  > = [];
   let settings: SettingsDto = DEFAULT_SETTINGS;
 
   try {
-    const prisma = await getPrisma();
     const [cats, menuItems, siteSettings] = await Promise.all([
       prisma.category.findMany({ orderBy: { order: "asc" } }),
       prisma.menuItem.findMany({

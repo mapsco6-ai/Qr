@@ -21,7 +21,7 @@ export default function AdminLoginPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
-      const data = (await res.json()) as { error?: string };
+      const data = await res.json();
       if (!res.ok) {
         setError(data.error ?? "خطأ في تسجيل الدخول");
         return;

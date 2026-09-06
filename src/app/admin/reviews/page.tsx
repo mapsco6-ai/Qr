@@ -11,7 +11,7 @@ export default function AdminReviewsPage() {
   async function loadReviews() {
     setLoading(true);
     const res = await fetch("/api/admin/reviews");
-    setReviews((await res.json()) as ReviewDto[]);
+    setReviews(await res.json());
     setLoading(false);
   }
 

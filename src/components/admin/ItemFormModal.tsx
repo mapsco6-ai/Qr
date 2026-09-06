@@ -43,8 +43,8 @@ export default function ItemFormModal({
       const formData = new FormData();
       formData.append("file", file);
       const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
-      const data = (await res.json()) as { url?: string; error?: string };
-      if (!res.ok || !data.url) throw new Error(data.error);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
       setImage(data.url);
     } catch (err) {
       setError(err instanceof Error ? err.message : "تعذر رفع الصورة");
@@ -86,7 +86,7 @@ export default function ItemFormModal({
         }
       );
       if (!res.ok) {
-        const data = (await res.json()) as { error?: string };
+        const data = await res.json();
         throw new Error(data.error ?? "تعذر الحفظ");
       }
       onSaved();

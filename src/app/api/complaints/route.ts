@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getPrisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 
 export async function POST(request: NextRequest) {
-  const body = (await request.json()) as any;
+  const body = await request.json();
   const { customerName, phone, message } = body ?? {};
 
   if (
@@ -14,7 +14,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "بيانات غير صالحة" }, { status: 400 });
   }
 
-  const prisma = await getPrisma();
   const complaint = await prisma.complaint.create({
     data: {
       customerName: customerName.trim().slice(0, 100),
