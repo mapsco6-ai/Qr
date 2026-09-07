@@ -255,16 +255,13 @@ async function main() {
       create: { name: cat.name, order: i },
     });
 
+    const existingItemCount = await prisma.menuItem.count({
+      where: { categoryId: category.id },
+    });
+    if (existingItemCount > 0) continue;
+
     for (let j = 0; j < cat.items.length; j++) {
       const item = cat.items[j];
-      const existing = await prisma.menuItem.findFirst({
-        where: { name: item.name, categoryId: category.id },
-      });
-
-      if (existing) {
-        await prisma.menuItem.update({ where: { id: existing.id }, data: { order: j } });
-        continue;
-      }
 
       await prisma.menuItem.create({
         data: {
