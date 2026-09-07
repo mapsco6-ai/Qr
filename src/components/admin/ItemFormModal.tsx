@@ -28,6 +28,7 @@ export default function ItemFormModal({
   const [newPrice, setNewPrice] = useState(item?.newPrice ?? 0);
   const [isOffer, setIsOffer] = useState(item?.isOffer ?? false);
   const [offerNote, setOfferNote] = useState(item?.offerNote ?? "");
+  const [isNew, setIsNew] = useState(item?.isNew ?? false);
   const [active, setActive] = useState(item?.active ?? true);
 
   const [uploading, setUploading] = useState(false);
@@ -77,6 +78,7 @@ export default function ItemFormModal({
       newPrice: Number(newPrice),
       isOffer,
       offerNote: isOffer ? offerNote : null,
+      isNew,
       active,
     };
 
@@ -249,6 +251,15 @@ export default function ItemFormModal({
               className="rounded-xl border border-cream-200 px-3 py-2 text-sm outline-none focus:border-ember-500"
             />
           )}
+
+          <label className="flex items-center gap-2 text-sm text-charcoal-600">
+            <input
+              type="checkbox"
+              checked={isNew}
+              onChange={(e) => setIsNew(e.target.checked)}
+            />
+            هذا الصنف جديد (تظهر عليه علامة "جديد")
+          </label>
 
           <label className="flex items-center gap-2 text-sm text-charcoal-600">
             <input

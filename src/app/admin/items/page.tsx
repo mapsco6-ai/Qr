@@ -126,6 +126,11 @@ export default function AdminItemsPage() {
                                 عرض
                               </span>
                             )}
+                            {item.isNew && (
+                              <span className="ms-2 rounded-full bg-ember-400/20 px-2 py-0.5 text-xs text-ember-600">
+                                جديد
+                              </span>
+                            )}
                           </td>
                           <td>
                             {formatPrice(pricing.totalCost)} {CURRENCY_LABEL}

@@ -59,6 +59,7 @@ export default async function HomePage() {
         newPrice: i.newPrice,
         isOffer: i.isOffer,
         offerNote: i.offerNote,
+        isNew: i.isNew,
         active: i.active,
         order: i.order,
       }))}

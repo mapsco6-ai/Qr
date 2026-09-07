@@ -24,6 +24,7 @@ export async function POST(request: NextRequest) {
     newPrice,
     isOffer,
     offerNote,
+    isNew,
     active,
     order,
   } = body ?? {};
@@ -44,6 +45,7 @@ export async function POST(request: NextRequest) {
       newPrice: Number(newPrice) || 0,
       isOffer: Boolean(isOffer),
       offerNote: typeof offerNote === "string" ? offerNote : null,
+      isNew: Boolean(isNew),
       active: active === undefined ? true : Boolean(active),
       order: Number(order) || 0,
     },

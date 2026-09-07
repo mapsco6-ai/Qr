@@ -67,9 +67,9 @@ export default function MenuItemCard({ item, index, onClick }: MenuItemCardProps
             </svg>
           </div>
         )}
-        {hasDiscount && (
+        {item.isNew && (
           <span className="absolute right-1.5 top-1.5 rounded-full bg-ember-600 px-2 py-0.5 text-[10px] font-bold text-white shadow">
-            خصم
+            جديد
           </span>
         )}
       </div>

@@ -18,6 +18,7 @@ export async function PUT(
     newPrice,
     isOffer,
     offerNote,
+    isNew,
     active,
     order,
   } = body ?? {};
@@ -36,6 +37,7 @@ export async function PUT(
         ...(newPrice !== undefined ? { newPrice: Number(newPrice) || 0 } : {}),
         ...(isOffer !== undefined ? { isOffer: Boolean(isOffer) } : {}),
         ...(offerNote !== undefined ? { offerNote } : {}),
+        ...(isNew !== undefined ? { isNew: Boolean(isNew) } : {}),
         ...(active !== undefined ? { active: Boolean(active) } : {}),
         ...(order !== undefined ? { order: Number(order) || 0 } : {}),
       },

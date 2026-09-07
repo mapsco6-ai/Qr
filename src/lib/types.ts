@@ -17,6 +17,7 @@ export interface MenuItemDto {
   newPrice: number;
   isOffer: boolean;
   offerNote: string | null;
+  isNew: boolean;
   active: boolean;
   order: number;
 }
