@@ -18,6 +18,11 @@ export default function CartDrawer({ siteName, onClose }: CartDrawerProps) {
   const [locationStatus, setLocationStatus] = useState<LocationStatus>("idle");
   const [locationUrl, setLocationUrl] = useState<string | null>(null);
 
+  function handleOrderConfirmed() {
+    clear();
+    onClose();
+  }
+
   function handleShareLocation() {
     if (!navigator.geolocation) {
       setLocationStatus("error");
@@ -147,6 +152,7 @@ export default function CartDrawer({ siteName, onClose }: CartDrawerProps) {
 
             <WhatsAppOrderLinks
               message={buildCartMessage(items, siteName, locationUrl ?? undefined)}
+              onLinkClick={handleOrderConfirmed}
             />
 
             <button
