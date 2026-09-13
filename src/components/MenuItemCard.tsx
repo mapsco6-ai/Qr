@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { MenuItemDto } from "@/lib/types";
 import { formatPrice, CURRENCY_LABEL } from "@/lib/pricing";
+import { useCart } from "@/context/CartContext";
 
 interface MenuItemCardProps {
   item: MenuItemDto;
@@ -11,17 +12,23 @@ interface MenuItemCardProps {
 }
 
 export default function MenuItemCard({ item, index, onClick }: MenuItemCardProps) {
+  const { addItem } = useCart();
   const hasDiscount = item.oldPrice > item.newPrice && item.oldPrice > 0;
 
   return (
-    <motion.button
+    <motion.div
+      role="button"
+      tabIndex={0}
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") onClick();
+      }}
       initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.35, delay: Math.min(index, 8) * 0.04, ease: "easeOut" }}
       whileTap={{ scale: 0.98 }}
-      className="flex w-full items-stretch gap-3 rounded-2xl border border-cream-200 bg-white p-2.5 text-right shadow-sm transition-shadow hover:shadow-md dark:border-charcoal-700 dark:bg-charcoal-800"
+      className="flex w-full cursor-pointer items-stretch gap-3 rounded-2xl border border-cream-200 bg-white p-2.5 text-right shadow-sm transition-shadow hover:shadow-md dark:border-charcoal-700 dark:bg-charcoal-800"
     >
       <div className="min-w-0 flex-1 flex-col justify-between py-1 pr-1">
         <div className="flex flex-col gap-1">
@@ -72,7 +79,18 @@ export default function MenuItemCard({ item, index, onClick }: MenuItemCardProps
             جديد
           </span>
         )}
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            addItem({ id: item.id, name: item.name, price: item.newPrice });
+          }}
+          aria-label="أضف إلى السلة"
+          className="absolute bottom-1.5 left-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-ember-600 text-base font-bold text-white shadow"
+        >
+          +
+        </button>
       </div>
-    </motion.button>
+    </motion.div>
   );
 }

@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { MenuItemDto, ReviewDto } from "@/lib/types";
 import { formatPrice, CURRENCY_LABEL } from "@/lib/pricing";
+import { useCart } from "@/context/CartContext";
 import StarRating from "./StarRating";
-import WhatsAppOrderLinks from "./WhatsAppOrderLinks";
 
 interface ItemDetailModalProps {
   item: MenuItemDto;
@@ -12,6 +12,7 @@ interface ItemDetailModalProps {
 }
 
 export default function ItemDetailModal({ item, onClose }: ItemDetailModalProps) {
+  const { addItem } = useCart();
   const [reviews, setReviews] = useState<ReviewDto[]>([]);
   const [loadingReviews, setLoadingReviews] = useState(true);
 
@@ -22,7 +23,16 @@ export default function ItemDetailModal({ item, onClose }: ItemDetailModalProps)
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
 
+  const [quantity, setQuantity] = useState(1);
+  const [added, setAdded] = useState(false);
+
   const hasDiscount = item.oldPrice > item.newPrice && item.oldPrice > 0;
+
+  function handleAddToCart() {
+    addItem({ id: item.id, name: item.name, price: item.newPrice }, quantity);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 1500);
+  }
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -136,10 +146,36 @@ export default function ItemDetailModal({ item, onClose }: ItemDetailModalProps)
             </span>
           </div>
 
-          <WhatsAppOrderLinks
-            message={`مرحباً، أريد طلب: ${item.name} - ${formatPrice(item.newPrice)} ${CURRENCY_LABEL}`}
-            className="mt-4"
-          />
+          <div className="mt-4 flex items-center gap-3">
+            <div className="flex items-center gap-3 rounded-xl border border-cream-200 px-3 py-2 dark:border-charcoal-600">
+              <button
+                type="button"
+                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                className="flex h-7 w-7 items-center justify-center rounded-full bg-cream-100 font-bold text-charcoal-700 dark:bg-charcoal-700 dark:text-cream-100"
+                aria-label="إنقاص الكمية"
+              >
+                −
+              </button>
+              <span className="w-5 text-center font-bold text-charcoal-800 dark:text-cream-50">
+                {quantity}
+              </span>
+              <button
+                type="button"
+                onClick={() => setQuantity((q) => q + 1)}
+                className="flex h-7 w-7 items-center justify-center rounded-full bg-ember-600 font-bold text-white"
+                aria-label="زيادة الكمية"
+              >
+                +
+              </button>
+            </div>
+            <button
+              type="button"
+              onClick={handleAddToCart}
+              className="flex-1 rounded-xl bg-ember-600 py-2.5 font-bold text-white transition hover:bg-ember-700"
+            >
+              {added ? "تمت الإضافة ✓" : "أضف إلى السلة"}
+            </button>
+          </div>
 
           <hr className="my-5 border-cream-200 dark:border-charcoal-700" />
 

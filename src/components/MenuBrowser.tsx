@@ -8,7 +8,9 @@ import ItemDetailModal from "./ItemDetailModal";
 import ComplaintModal from "./ComplaintModal";
 import FlameLogo from "./FlameLogo";
 import ThemeToggle from "./ThemeToggle";
-import WhatsAppFloatingButton from "./WhatsAppFloatingButton";
+import CartButton from "./CartButton";
+import CartDrawer from "./CartDrawer";
+import { CartProvider } from "@/context/CartContext";
 
 interface MenuBrowserProps {
   settings: SettingsDto;
@@ -31,6 +33,7 @@ export default function MenuBrowser({ settings, categories, items }: MenuBrowser
   const [search, setSearch] = useState("");
   const [selectedItem, setSelectedItem] = useState<MenuItemDto | null>(null);
   const [showComplaint, setShowComplaint] = useState(false);
+  const [showCart, setShowCart] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const nonEmptyCategories = useMemo(
@@ -52,6 +55,7 @@ export default function MenuBrowser({ settings, categories, items }: MenuBrowser
   }
 
   return (
+    <CartProvider>
     <div className="min-h-screen bg-cream-50 dark:bg-charcoal-950">
       {/* Top bar */}
       <div className="mx-auto flex max-w-3xl items-center justify-between px-4 pt-4">
@@ -209,10 +213,14 @@ export default function MenuBrowser({ settings, categories, items }: MenuBrowser
         <ItemDetailModal item={selectedItem} onClose={() => setSelectedItem(null)} />
       )}
       {showComplaint && <ComplaintModal onClose={() => setShowComplaint(false)} />}
+      {showCart && (
+        <CartDrawer siteName={settings.siteName} onClose={() => setShowCart(false)} />
+      )}
 
-      {!selectedItem && !showComplaint && (
-        <WhatsAppFloatingButton siteName={settings.siteName} />
+      {!selectedItem && !showComplaint && !showCart && (
+        <CartButton onClick={() => setShowCart(true)} />
       )}
     </div>
+    </CartProvider>
   );
 }
