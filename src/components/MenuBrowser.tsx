@@ -8,6 +8,7 @@ import ItemDetailModal from "./ItemDetailModal";
 import ComplaintModal from "./ComplaintModal";
 import FlameLogo from "./FlameLogo";
 import ThemeToggle from "./ThemeToggle";
+import WhatsAppFloatingButton from "./WhatsAppFloatingButton";
 
 interface MenuBrowserProps {
   settings: SettingsDto;
@@ -208,6 +209,10 @@ export default function MenuBrowser({ settings, categories, items }: MenuBrowser
         <ItemDetailModal item={selectedItem} onClose={() => setSelectedItem(null)} />
       )}
       {showComplaint && <ComplaintModal onClose={() => setShowComplaint(false)} />}
+
+      {!selectedItem && !showComplaint && (
+        <WhatsAppFloatingButton siteName={settings.siteName} />
+      )}
     </div>
   );
 }

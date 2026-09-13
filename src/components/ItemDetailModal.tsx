@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { MenuItemDto, ReviewDto } from "@/lib/types";
 import { formatPrice, CURRENCY_LABEL } from "@/lib/pricing";
 import StarRating from "./StarRating";
+import WhatsAppOrderLinks from "./WhatsAppOrderLinks";
 
 interface ItemDetailModalProps {
   item: MenuItemDto;
@@ -134,6 +135,11 @@ export default function ItemDetailModal({ item, onClose }: ItemDetailModalProps)
               {CURRENCY_LABEL}
             </span>
           </div>
+
+          <WhatsAppOrderLinks
+            message={`مرحباً، أريد طلب: ${item.name} - ${formatPrice(item.newPrice)} ${CURRENCY_LABEL}`}
+            className="mt-4"
+          />
 
           <hr className="my-5 border-cream-200 dark:border-charcoal-700" />
 
