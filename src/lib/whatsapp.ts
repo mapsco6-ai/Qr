@@ -15,7 +15,11 @@ export function buildWhatsappUrl(phone: string, message: string) {
   return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 }
 
-export function buildCartMessage(items: CartItem[], siteName: string) {
+export function buildLocationUrl(latitude: number, longitude: number) {
+  return `https://www.google.com/maps?q=${latitude},${longitude}`;
+}
+
+export function buildCartMessage(items: CartItem[], siteName: string, locationUrl?: string) {
   const lines = items.map(
     (item, index) =>
       `${index + 1}. ${item.name} × ${item.quantity} - ${formatPrice(item.price * item.quantity)} ${CURRENCY_LABEL}`
@@ -28,5 +32,6 @@ export function buildCartMessage(items: CartItem[], siteName: string) {
     ...lines,
     "",
     `الإجمالي: ${formatPrice(total)} ${CURRENCY_LABEL}`,
+    ...(locationUrl ? ["", `موقعي على الخريطة: ${locationUrl}`] : []),
   ].join("\n");
 }

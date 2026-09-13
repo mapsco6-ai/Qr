@@ -1,8 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { useCart } from "@/context/CartContext";
 import { formatPrice, CURRENCY_LABEL } from "@/lib/pricing";
-import { buildCartMessage } from "@/lib/whatsapp";
+import { buildCartMessage, buildLocationUrl } from "@/lib/whatsapp";
 import WhatsAppOrderLinks from "./WhatsAppOrderLinks";
 
 interface CartDrawerProps {
@@ -10,8 +11,28 @@ interface CartDrawerProps {
   onClose: () => void;
 }
 
+type LocationStatus = "idle" | "loading" | "granted" | "error";
+
 export default function CartDrawer({ siteName, onClose }: CartDrawerProps) {
   const { items, updateQuantity, removeItem, clear, totalPrice } = useCart();
+  const [locationStatus, setLocationStatus] = useState<LocationStatus>("idle");
+  const [locationUrl, setLocationUrl] = useState<string | null>(null);
+
+  function handleShareLocation() {
+    if (!navigator.geolocation) {
+      setLocationStatus("error");
+      return;
+    }
+    setLocationStatus("loading");
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setLocationUrl(buildLocationUrl(position.coords.latitude, position.coords.longitude));
+        setLocationStatus("granted");
+      },
+      () => setLocationStatus("error"),
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  }
 
   return (
     <div
@@ -100,7 +121,33 @@ export default function CartDrawer({ siteName, onClose }: CartDrawerProps) {
               </span>
             </div>
 
-            <WhatsAppOrderLinks message={buildCartMessage(items, siteName)} />
+            <div className="rounded-xl bg-cream-50 p-3 dark:bg-charcoal-800">
+              {locationStatus === "granted" ? (
+                <p className="text-center text-sm font-semibold text-green-600 dark:text-green-400">
+                  ✓ تم إرفاق موقعك مع الطلب
+                </p>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleShareLocation}
+                  disabled={locationStatus === "loading"}
+                  className="w-full rounded-xl border border-cream-300 py-2 text-sm font-semibold text-charcoal-600 disabled:opacity-60 dark:border-charcoal-600 dark:text-charcoal-200"
+                >
+                  {locationStatus === "loading"
+                    ? "جاري تحديد موقعك..."
+                    : "📍 إرفاق موقعي مع الطلب (لتسهيل التوصيل)"}
+                </button>
+              )}
+              {locationStatus === "error" && (
+                <p className="mt-1 text-center text-xs text-red-500">
+                  تعذر تحديد موقعك، تأكد من السماح بصلاحية الموقع من المتصفح
+                </p>
+              )}
+            </div>
+
+            <WhatsAppOrderLinks
+              message={buildCartMessage(items, siteName, locationUrl ?? undefined)}
+            />
 
             <button
               type="button"
