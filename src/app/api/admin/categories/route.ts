@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/prisma";
 
 export async function GET() {
@@ -14,5 +15,6 @@ export async function POST(request: NextRequest) {
   const category = await prisma.category.create({
     data: { name: name.trim(), order: Number(order) || 0 },
   });
+  revalidateTag("menu");
   return NextResponse.json(category, { status: 201 });
 }

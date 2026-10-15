@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -30,5 +31,6 @@ export async function PUT(request: NextRequest) {
     },
   });
 
+  revalidateTag("menu");
   return NextResponse.json(settings);
 }

@@ -1,3 +1,4 @@
+import { unstable_cache } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import MenuBrowser from "@/components/MenuBrowser";
 import { SettingsDto } from "@/lib/types";
@@ -10,15 +11,9 @@ const DEFAULT_SETTINGS: SettingsDto = {
   logoUrl: null,
 };
 
-export default async function HomePage() {
-  let categories: Awaited<ReturnType<typeof prisma.category.findMany>> = [];
-  let items: Awaited<
-    ReturnType<typeof prisma.menuItem.findMany<{ include: { category: true } }>>
-  > = [];
-  let settings: SettingsDto = DEFAULT_SETTINGS;
-
-  try {
-    const [cats, menuItems, siteSettings] = await Promise.all([
+const getMenuData = unstable_cache(
+  async () => {
+    const [categories, items, settings] = await Promise.all([
       prisma.category.findMany({ orderBy: { order: "asc" } }),
       prisma.menuItem.findMany({
         where: { active: true },
@@ -27,9 +22,24 @@ export default async function HomePage() {
       }),
       prisma.settings.findUnique({ where: { id: "main" } }),
     ]);
-    categories = cats;
-    items = menuItems;
-    if (siteSettings) settings = siteSettings;
+    return { categories, items, settings };
+  },
+  ["public-menu-data"],
+  { revalidate: 30, tags: ["menu"] }
+);
+
+export default async function HomePage() {
+  let categories: Awaited<ReturnType<typeof prisma.category.findMany>> = [];
+  let items: Awaited<
+    ReturnType<typeof prisma.menuItem.findMany<{ include: { category: true } }>>
+  > = [];
+  let settings: SettingsDto = DEFAULT_SETTINGS;
+
+  try {
+    const data = await getMenuData();
+    categories = data.categories;
+    items = data.items;
+    if (data.settings) settings = data.settings;
   } catch (error) {
     console.error("Failed to load menu data:", error);
     return (
@@ -44,13 +54,16 @@ export default async function HomePage() {
 
   return (
     <MenuBrowser
-      settings={settings}
+      settings={{
+        ...settings,
+        logoUrl: settings.logoUrl ? "/api/settings/logo" : null,
+      }}
       categories={categories.map((c) => ({ id: c.id, name: c.name, order: c.order }))}
       items={items.map((i) => ({
         id: i.id,
         name: i.name,
         description: i.description,
-        image: i.image,
+        image: i.image ? `/api/menu-items/${i.id}/image` : null,
         categoryId: i.categoryId,
         category: { id: i.category.id, name: i.category.name, order: i.category.order },
         productCost: i.productCost,

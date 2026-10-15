@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/prisma";
 
 export async function PUT(
@@ -42,6 +43,7 @@ export async function PUT(
         ...(order !== undefined ? { order: Number(order) || 0 } : {}),
       },
     });
+    revalidateTag("menu");
     return NextResponse.json(item);
   } catch {
     return NextResponse.json({ error: "العنصر غير موجود" }, { status: 404 });
@@ -55,6 +57,7 @@ export async function DELETE(
   const { id } = await params;
   try {
     await prisma.menuItem.delete({ where: { id } });
+    revalidateTag("menu");
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ error: "العنصر غير موجود" }, { status: 404 });

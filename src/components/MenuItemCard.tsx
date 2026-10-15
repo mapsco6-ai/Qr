@@ -65,7 +65,13 @@ export default function MenuItemCard({ item, index, onClick }: MenuItemCardProps
       <div className="relative aspect-square w-24 shrink-0 overflow-hidden rounded-xl bg-cream-100 dark:bg-charcoal-700 sm:w-28">
         {item.image ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
+          <img
+            src={item.image}
+            alt={item.name}
+            loading={index < 3 ? "eager" : "lazy"}
+            decoding="async"
+            className="h-full w-full object-cover"
+          />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-cream-300 dark:text-charcoal-500">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
